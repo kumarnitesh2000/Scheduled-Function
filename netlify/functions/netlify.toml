@@ -1,11 +1,11 @@
 
 # in case we need to specify cron in config file of Netlify
 
-# [functions."schedular_function"]
-# schedule = "@hourly"
+[functions."schedular_function"]
+schedule = "* * * * *"
 
 # scheduled functions configuration
 
 [dev]
-# functions = "schedular_function"
-# functionsPort = 7000
+functions = "schedular"
+functionsPort = 7000
