@@ -1,3 +1,5 @@
+const crypto = require("crypto");
+
 function hashingJSON(data) {
     const flattedJSON = flattenJSON(data);
     const message = JSON.stringify(sortJSONByKeys(flattedJSON));
