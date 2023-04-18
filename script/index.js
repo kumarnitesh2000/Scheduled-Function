@@ -1,23 +1,19 @@
-const { fetchStates, fetchUsers, fetchUserById } = require("./helper/dbhelper");
-const { hashingJSON } = require("./helper/misc");
-const { addDataToSheet } = require("./helper/sheetupdater");
-const { hashedSchema } = require("./model/hashedlabel");
+const { fetchStates } = require("./helper/dbhelper");
 const { connect, disconnect } = require("./utils/dbconnection");
+const recommedationEngine = require("./utils/recommendation");
 
 async function main() {
 
     try {
-        const { roadmapDbInstance, userDbInstance } = await connect();
+        const { roadmapDbInstance } = await connect();
 
         const states = await fetchStates(roadmapDbInstance);
         console.log(`fetched ${states.length} states`);
-        states.forEach(async (state) => {
-            let userId = state.userId;
-            let user = await fetchUserById(userDbInstance,userId);
-            console.log(user);
-          });
-
-        // await disconnect();
+        states.forEach((state) => {
+            const recommendedContent = recommedationEngine(state);
+            console.log(recommendedContent);
+        });
+        await disconnect();
     } 
     catch (err) {
         console.log(err);
