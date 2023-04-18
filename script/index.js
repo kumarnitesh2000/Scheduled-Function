@@ -1,4 +1,4 @@
-const { fetchStates, fetchUsers } = require("./helper/dbhelper");
+const { fetchStates, fetchUsers, fetchUserById } = require("./helper/dbhelper");
 const { hashingJSON } = require("./helper/misc");
 const { addDataToSheet } = require("./helper/sheetupdater");
 const { hashedSchema } = require("./model/hashedlabel");
@@ -7,25 +7,15 @@ const { connect, disconnect } = require("./utils/dbconnection");
 async function main() {
 
     try {
-        const { sdeDB, userDB } = await connect();
+        const { roadmapDbInstance, userDbInstance } = await connect();
 
-        const states = await fetchStates(sdeDB);
-        console.log(states);
-
-        const users = await fetchUsers(userDB);
-        console.log(users);
-
-        for (let i=0; i<states.length; i++) {
-            let state = states[i];
-            let userId = ""
-
-            let hashedKey = hashingJSON({ userId, state })
-            const label = hashedSchema.findOne({ label: hashedKey })
-
-            if(!label) {
-                await addDataToSheet()
-            }
-        }
+        const states = await fetchStates(roadmapDbInstance);
+        console.log(`fetched ${states.length} states`);
+        states.forEach(async (state) => {
+            let userId = state.userId;
+            let user = await fetchUserById(userDbInstance,userId);
+            console.log(user);
+          });
 
         await disconnect();
     } 

@@ -1,4 +1,4 @@
-const state_colors = require("../global_constants");
+const {state_colors} = require("../global_constants");
 
 const isNodeDone = (node) => {
     return node.style.backgroundColor === state_colors.done;

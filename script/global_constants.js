@@ -3,5 +3,11 @@ const state_colors = {
     done: "#A5FD7C",
     skip: "#FAF19E"
   };
+
+const db = {
+  roadmapDb:"tool_roadmap",
+  userDb: "user"
+};
   
-module.exports = state_colors;
+module.exports.state_colors = state_colors;
+module.exports.db = db;
