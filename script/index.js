@@ -17,7 +17,7 @@ async function main() {
             console.log(user);
           });
 
-        await disconnect();
+        // await disconnect();
     } 
     catch (err) {
         console.log(err);
